@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Pattern;
 
 @Entity
 public class Usuario {
@@ -15,7 +14,6 @@ public class Usuario {
 
     private String nome;
 
-    @Pattern(regexp = "^\\(?\\d{2}\\)?\\s?\\d{4,5}-?\\d{4}$\n")
     private String telefone;
 
     public Usuario() {
