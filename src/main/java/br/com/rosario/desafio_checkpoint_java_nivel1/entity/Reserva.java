@@ -1,8 +1,9 @@
 package br.com.rosario.desafio_checkpoint_java_nivel1.entity;
 
+import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizacaoReservaDTO;
+import br.com.rosario.desafio_checkpoint_java_nivel1.dto.CadastroReservaDTO;
 import jakarta.persistence.*;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -29,9 +30,9 @@ public class Reserva {
     public Reserva() {
     }
 
-    public Reserva(Sala sala, Usuario usuario) {
-        this.sala = sala;
-        this.usuario = usuario;
+    public Reserva(CadastroReservaDTO dto) {
+        this.sala = dto.sala();
+        this.usuario = dto.usuario();
         this.statusReserva = StatusReserva.ATIVA;
         this.inicio = LocalDate.now();
         sala.reservar();
@@ -53,15 +54,27 @@ public class Reserva {
         return statusReserva;
     }
 
+    public LocalDate getInicio() {
+        return inicio;
+    }
+
+    public LocalDate getFim() {
+        return fim;
+    }
+
     public void cancelarReserva() {
         this.statusReserva = StatusReserva.CANCELADA;
         sala.cancelarReserva();
     }
 
     public void adicionarFimDaReserva(LocalDate date) {
-        if (date.isBefore(this.inicio)){
-            throw new DateTimeException("A data de fim é anterior á de início!");
-        }
         this.fim = date;
+    }
+
+    public void atualizarDados(AtualizacaoReservaDTO dto) {
+        this.id = dto.id();
+        this.sala = dto.sala();
+        this.usuario = dto.usuario();
+        this.statusReserva = dto.statusReserva();
     }
 }

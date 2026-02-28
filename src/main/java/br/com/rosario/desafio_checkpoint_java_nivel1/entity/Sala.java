@@ -1,5 +1,6 @@
 package br.com.rosario.desafio_checkpoint_java_nivel1.entity;
 
+import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizacaoSalaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.CadastroSalaDTO;
 import jakarta.persistence.*;
 
@@ -49,19 +50,25 @@ public class Sala {
         return statusSala;
     }
 
-    void desativarSala() {
+    public void desativarSala() {
         this.statusSala = StatusSala.INATIVA;
     }
 
-    void ativarSala() {
+    public void ativarSala() {
         this.statusSala = StatusSala.DISPONIVEL;
     }
 
-    void reservar() {
+    public void reservar() {
         this.reservas += 1;
     }
 
-    void cancelarReserva() {
+    public void cancelarReserva() {
         this.reservas -= 1;
+    }
+
+    public void atualizarDados(AtualizacaoSalaDTO dto) {
+        this.id = dto.id();
+        this.nome = dto.nome();
+        this.capacidade = dto.capacidade();
     }
 }
