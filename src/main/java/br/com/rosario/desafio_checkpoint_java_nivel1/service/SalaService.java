@@ -30,7 +30,7 @@ public class SalaService {
                 .map(SalaDTO::new);
     }
 
-    public void criarSala(CadastroSalaDTO dto) {
+    public void cadastrarSala(CadastroSalaDTO dto) {
         repository.save(new Sala(dto));
     }
 
