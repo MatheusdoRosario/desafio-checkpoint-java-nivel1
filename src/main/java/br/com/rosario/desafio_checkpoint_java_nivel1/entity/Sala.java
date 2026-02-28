@@ -1,5 +1,6 @@
 package br.com.rosario.desafio_checkpoint_java_nivel1.entity;
 
+import br.com.rosario.desafio_checkpoint_java_nivel1.dto.CadastroSalaDTO;
 import jakarta.persistence.*;
 
 @Entity
@@ -21,9 +22,10 @@ public class Sala {
     public Sala() {
     }
 
-    public Sala(String nome, int capacidade) {
-        this.nome = nome;
-        this.capacidade = capacidade;
+    public Sala(CadastroSalaDTO dto) {
+        this.nome = dto.nome();
+        this.capacidade = dto.capacidade();
+        this.reservas = 0;
         this.statusSala = StatusSala.DISPONIVEL;
     }
 
