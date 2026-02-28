@@ -53,6 +53,14 @@ public class Reserva {
         return statusReserva;
     }
 
+    public LocalDate getInicio() {
+        return inicio;
+    }
+
+    public LocalDate getFim() {
+        return fim;
+    }
+
     public void cancelarReserva() {
         this.statusReserva = StatusReserva.CANCELADA;
         sala.cancelarReserva();
