@@ -1,5 +1,6 @@
 package br.com.rosario.desafio_checkpoint_java_nivel1.entity;
 
+import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizacaoUsuarioDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,5 +35,11 @@ public class Usuario {
 
     public String getTelefone() {
         return telefone;
+    }
+
+    public void atualizarDados(AtualizacaoUsuarioDTO dto) {
+        this.id = dto.id();
+        this.nome = dto.nome();
+        this.telefone = dto.telefone();
     }
 }
