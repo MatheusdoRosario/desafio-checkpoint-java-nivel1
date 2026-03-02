@@ -6,12 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SalaRepository extends JpaRepository<Sala, Long> {
 
-    Boolean existsByName(String nome);
+    Boolean existsByNome(String nome);
 
-    Boolean existsByNameAndIdNot(String nome, Long id);
+    Boolean existsByNomeAndIdNot(String nome, Long id);
 
     Boolean existsByIdAndStatusSala(Long id, StatusSala statusSala);
-
-    Boolean existsByIdAndCapacidadeGreaterThanEqual(Long id, Integer capacidade);
 
 }

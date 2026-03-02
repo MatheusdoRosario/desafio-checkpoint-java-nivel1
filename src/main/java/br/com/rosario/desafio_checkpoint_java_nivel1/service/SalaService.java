@@ -33,7 +33,7 @@ public class SalaService {
 
     @Transactional
     public void cadastrarSala(CadastroSalaDTO dto) {
-        if (repository.existsByName(dto.nome())) {
+        if (repository.existsByNome(dto.nome())) {
             throw new ValidacaoException("Nome já cadastrado!");
         }
         repository.save(new Sala(dto));
@@ -41,7 +41,7 @@ public class SalaService {
 
     @Transactional
     public void atualizarSala(AtualizacaoSalaDTO dto) {
-        if (repository.existsByNameAndIdNot(dto.nome(), dto.id())) {
+        if (repository.existsByNomeAndIdNot(dto.nome(), dto.id())) {
             throw new ValidacaoException("Nome já cadastrado!");
         }
         Sala sala = repository.findById(dto.id())
