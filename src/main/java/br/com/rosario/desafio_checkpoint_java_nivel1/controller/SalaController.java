@@ -7,12 +7,11 @@ import br.com.rosario.desafio_checkpoint_java_nivel1.exception.ValidacaoExceptio
 import br.com.rosario.desafio_checkpoint_java_nivel1.service.SalaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/sala")
@@ -22,8 +21,8 @@ public class SalaController {
     private SalaService service;
 
     @GetMapping
-    public ResponseEntity<List<SalaDTO>> listar() {
-        List<SalaDTO> salas = service.listar();
+    public ResponseEntity<Page<SalaDTO>> listar(Pageable pageable) {
+        Page<SalaDTO> salas = service.listar(pageable);
         return ResponseEntity.ok(salas);
     }
 

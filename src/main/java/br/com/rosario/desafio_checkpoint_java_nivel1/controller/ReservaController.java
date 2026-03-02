@@ -7,11 +7,12 @@ import br.com.rosario.desafio_checkpoint_java_nivel1.exception.ValidacaoExceptio
 import br.com.rosario.desafio_checkpoint_java_nivel1.service.ReservaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -32,14 +33,14 @@ public class ReservaController {
     }
 
     @GetMapping("/sala/{id}")
-    public ResponseEntity<List<ReservaDTO>> buscarReservasPorSala(@PathVariable Long id) {
-        List<ReservaDTO> reservas = service.buscarReservasPorSala(id);
+    public ResponseEntity<Page<ReservaDTO>> buscarReservasPorSala(Pageable pageable, @PathVariable Long id) {
+        Page<ReservaDTO> reservas = service.buscarReservasPorSala(pageable, id);
         return ResponseEntity.ok(reservas);
     }
 
     @GetMapping("/usuario/{id}")
-    public ResponseEntity<List<ReservaDTO>> buscarReservasPorUsuario(@PathVariable Long id) {
-        List<ReservaDTO> reservas = service.buscarReservasPorUsuario(id);
+    public ResponseEntity<Page<ReservaDTO>> buscarReservasPorUsuario(Pageable pageable, @PathVariable Long id) {
+        Page<ReservaDTO> reservas = service.buscarReservasPorUsuario(pageable, id);
         return ResponseEntity.ok(reservas);
     }
 

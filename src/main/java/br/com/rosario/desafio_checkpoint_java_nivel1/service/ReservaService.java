@@ -9,11 +9,11 @@ import br.com.rosario.desafio_checkpoint_java_nivel1.exception.ValidacaoExceptio
 import br.com.rosario.desafio_checkpoint_java_nivel1.repository.ReservaRepository;
 import br.com.rosario.desafio_checkpoint_java_nivel1.repository.SalaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -32,20 +32,16 @@ public class ReservaService {
                 .orElseThrow(() -> new ValidacaoException("Reserva não encontrada!"));
     }
 
-    public List<ReservaDTO> buscarReservasPorSala(Long id) {
+    public Page<ReservaDTO> buscarReservasPorSala(Pageable pageable, Long id) {
         return repository
-                .findBySalaId(id)
-                .stream()
-                .map(ReservaDTO::new)
-                .toList();
+                .findBySalaId(id, pageable)
+                .map(ReservaDTO::new);
     }
 
-    public List<ReservaDTO> buscarReservasPorUsuario(Long id) {
+    public Page<ReservaDTO> buscarReservasPorUsuario(Pageable pageable, Long id) {
         return repository
-                .findByUsuarioId(id)
-                .stream()
-                .map(ReservaDTO::new)
-                .toList();
+                .findByUsuarioId(id, pageable)
+                .map(ReservaDTO::new);
     }
 
     public void cadastrarReserva(CadastroReservaDTO dto) {
