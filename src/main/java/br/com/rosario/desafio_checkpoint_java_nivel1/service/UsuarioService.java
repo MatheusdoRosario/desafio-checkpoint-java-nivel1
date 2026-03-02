@@ -7,9 +7,9 @@ import br.com.rosario.desafio_checkpoint_java_nivel1.entity.Usuario;
 import br.com.rosario.desafio_checkpoint_java_nivel1.exception.ValidacaoException;
 import br.com.rosario.desafio_checkpoint_java_nivel1.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UsuarioService {
@@ -17,12 +17,10 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository repository;
 
-    public List<UsuarioDTO> listar() {
+    public Page<UsuarioDTO> listar(Pageable pageable) {
         return repository
-                .findAll()
-                .stream()
-                .map(UsuarioDTO::new)
-                .toList();
+                .findAll(pageable)
+                .map(UsuarioDTO::new);
     }
 
     public UsuarioDTO buscarPorId(Long id) {

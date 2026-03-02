@@ -7,11 +7,11 @@ import br.com.rosario.desafio_checkpoint_java_nivel1.exception.ValidacaoExceptio
 import br.com.rosario.desafio_checkpoint_java_nivel1.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/usuario")
@@ -21,8 +21,8 @@ public class UsuarioController {
     private UsuarioService service;
 
     @GetMapping
-    public ResponseEntity<List<UsuarioDTO>> listar() {
-        List<UsuarioDTO> usuarios = service.listar();
+    public ResponseEntity<Page<UsuarioDTO>> listar(Pageable pageable) {
+        Page<UsuarioDTO> usuarios = service.listar(pageable);
         return ResponseEntity.ok(usuarios);
     }
 
