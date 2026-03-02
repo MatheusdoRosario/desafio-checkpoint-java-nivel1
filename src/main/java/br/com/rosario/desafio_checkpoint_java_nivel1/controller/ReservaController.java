@@ -34,22 +34,14 @@ public class ReservaController {
 
     @GetMapping("/sala/{id}")
     public ResponseEntity<List<ReservaDTO>> buscarReservasPorSala(@PathVariable Long id) {
-        try {
-            List<ReservaDTO> reservas = service.buscarReservasPorSala(id);
-            return ResponseEntity.ok(reservas);
-        } catch (ValidacaoException e) {
-            return ResponseEntity.notFound().build();
-        }
+        List<ReservaDTO> reservas = service.buscarReservasPorSala(id);
+        return ResponseEntity.ok(reservas);
     }
 
     @GetMapping("/usuario/{id}")
     public ResponseEntity<List<ReservaDTO>> buscarReservasPorUsuario(@PathVariable Long id) {
-        try {
-            List<ReservaDTO> reservas = service.buscarReservasPorUsuario(id);
-            return ResponseEntity.ok(reservas);
-        } catch (ValidacaoException e) {
-            return ResponseEntity.notFound().build();
-        }
+        List<ReservaDTO> reservas = service.buscarReservasPorUsuario(id);
+        return ResponseEntity.ok(reservas);
     }
 
     @PostMapping
@@ -83,7 +75,7 @@ public class ReservaController {
     }
 
     @PutMapping("/fim/{id}")
-    public ResponseEntity<String> adicionarDataFimDaReserva(@PathVariable UUID id,@RequestBody LocalDate date) {
+    public ResponseEntity<String> adicionarDataFimDaReserva(@PathVariable UUID id, @RequestBody LocalDate date) {
         try {
             service.adicionarDataFimDaReserva(id, date);
             return ResponseEntity.ok().build();

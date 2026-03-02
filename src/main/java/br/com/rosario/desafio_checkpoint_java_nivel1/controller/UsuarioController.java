@@ -1,0 +1,68 @@
+package br.com.rosario.desafio_checkpoint_java_nivel1.controller;
+
+import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizacaoUsuarioDTO;
+import br.com.rosario.desafio_checkpoint_java_nivel1.dto.CadastroUsuarioDTO;
+import br.com.rosario.desafio_checkpoint_java_nivel1.dto.UsuarioDTO;
+import br.com.rosario.desafio_checkpoint_java_nivel1.exception.ValidacaoException;
+import br.com.rosario.desafio_checkpoint_java_nivel1.service.UsuarioService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/usuario")
+public class UsuarioController {
+
+    @Autowired
+    private UsuarioService service;
+
+    @GetMapping
+    public ResponseEntity<List<UsuarioDTO>> listar() {
+        List<UsuarioDTO> usuarios = service.listar();
+        return ResponseEntity.ok(usuarios);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<UsuarioDTO>> buscarPorId(@PathVariable Long id) {
+        try {
+            Optional<UsuarioDTO> usuario = service.buscarPorId(id);
+            return ResponseEntity.ok(usuario);
+        } catch (ValidacaoException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<String> cadastrarUsuario(@RequestBody @Valid CadastroUsuarioDTO dto) {
+        try {
+            service.cadastrarUsuario(dto);
+            return ResponseEntity.ok().build();
+        } catch (ValidacaoException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<String> atualizarUsuario(@RequestBody @Valid AtualizacaoUsuarioDTO dto) {
+        try {
+            service.atualizarUsuario(dto);
+            return ResponseEntity.ok().build();
+        } catch (ValidacaoException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> excluirUsuario(@PathVariable Long id) {
+        try {
+            service.excluirUsuario(id);
+            return ResponseEntity.ok().build();
+        } catch (ValidacaoException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+}
