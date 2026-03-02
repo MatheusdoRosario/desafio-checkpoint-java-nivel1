@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -23,9 +22,9 @@ public class ReservaController {
     private ReservaService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<ReservaDTO>> buscarPorId(@PathVariable UUID id) {
+    public ResponseEntity<ReservaDTO> buscarPorId(@PathVariable UUID id) {
         try {
-            Optional<ReservaDTO> reserva = service.buscarPorId(id);
+            ReservaDTO reserva = service.buscarPorId(id);
             return ResponseEntity.ok(reserva);
         } catch (ValidacaoException e) {
             return ResponseEntity.notFound().build();

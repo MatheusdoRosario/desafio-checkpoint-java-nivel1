@@ -4,6 +4,8 @@ import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizacaoSalaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.CadastroSalaDTO;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Sala {
 
@@ -15,7 +17,8 @@ public class Sala {
 
     private int capacidade;
 
-    private int reservas;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Reserva> reservas;
 
     @Enumerated(EnumType.STRING)
     private StatusSala statusSala;
@@ -26,7 +29,6 @@ public class Sala {
     public Sala(CadastroSalaDTO dto) {
         this.nome = dto.nome();
         this.capacidade = dto.capacidade();
-        this.reservas = 0;
         this.statusSala = StatusSala.DISPONIVEL;
     }
 
@@ -42,7 +44,7 @@ public class Sala {
         return capacidade;
     }
 
-    public int getReservas() {
+    public List<Reserva> getReservas() {
         return reservas;
     }
 
@@ -58,12 +60,12 @@ public class Sala {
         this.statusSala = StatusSala.DISPONIVEL;
     }
 
-    public void reservar() {
-        this.reservas += 1;
+    public void reservar(Reserva reserva) {
+        this.reservas.add(reserva);
     }
 
-    public void cancelarReserva() {
-        this.reservas -= 1;
+    public void cancelarReserva(Reserva reserva) {
+        this.reservas.remove(reserva);
     }
 
     public void atualizarDados(AtualizacaoSalaDTO dto) {

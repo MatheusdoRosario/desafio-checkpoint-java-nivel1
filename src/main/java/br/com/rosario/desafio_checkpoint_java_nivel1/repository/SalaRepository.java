@@ -11,4 +11,7 @@ public interface SalaRepository extends JpaRepository<Sala, Long> {
     Boolean existsByNameAndIdNot(String nome, Long id);
 
     Boolean existsByIdAndStatusSala(Long id, StatusSala statusSala);
+
+    Boolean existsByIdAndCapacidadeGreaterThanEqual(Long id, Integer capacidade);
+
 }
