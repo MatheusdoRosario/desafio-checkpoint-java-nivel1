@@ -54,6 +54,7 @@ public class ReservaService {
     public void cancelarReserva(UUID id) {
         Reserva reserva = repository.getReferenceById(id);
         reserva.cancelarReserva();
+        repository.deleteById(id);
     }
 
     public void adicionarDataFimDaReserva(UUID id, LocalDate date) {
