@@ -62,9 +62,9 @@ public class Reserva {
         return fim;
     }
 
-    public void cancelarReserva() {
+    public void cancelarReserva(Reserva reserva) {
         this.statusReserva = StatusReserva.CANCELADA;
-        sala.cancelarReserva();
+        sala.cancelarReserva(reserva);
     }
 
     public void adicionarFimDaReserva(LocalDate date) {

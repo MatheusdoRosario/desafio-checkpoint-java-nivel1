@@ -1,5 +1,8 @@
 package br.com.rosario.desafio_checkpoint_java_nivel1.dto;
 
-public record CadastroSalaDTO(String nome,
-                              int capacidade) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record CadastroSalaDTO(@NotBlank String nome,
+                              @NotNull int capacidade) {
 }

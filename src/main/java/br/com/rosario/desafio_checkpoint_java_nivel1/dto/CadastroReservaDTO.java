@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
-public record CadastroReservaDTO(LocalDate inicio,
-                                 @NotNull Sala sala,
+public record CadastroReservaDTO(@NotNull Sala sala,
                                  @NotNull Usuario usuario) {
 }
