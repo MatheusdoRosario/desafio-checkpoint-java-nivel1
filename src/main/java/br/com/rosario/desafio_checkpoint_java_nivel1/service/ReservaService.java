@@ -54,11 +54,12 @@ public class ReservaService {
     public void cancelarReserva(UUID id) {
         Reserva reserva = repository.getReferenceById(id);
         reserva.cancelarReserva();
+        repository.deleteById(id);
     }
 
     public void adicionarDataFimDaReserva(UUID id, LocalDate date) {
         Reserva reserva = repository.getReferenceById(id);
-        if (reserva.getInicio().isBefore(date)){
+        if (reserva.getInicio().isAfter(date)){
             throw new DateTimeException("A data de fim é anterior á de início!");
         }
         reserva.adicionarFimDaReserva(date);
