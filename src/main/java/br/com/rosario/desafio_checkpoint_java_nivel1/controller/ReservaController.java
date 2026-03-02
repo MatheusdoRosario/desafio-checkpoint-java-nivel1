@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/reserva")
+@RequestMapping("/api/v1/reserva")
 public class ReservaController {
 
     @Autowired

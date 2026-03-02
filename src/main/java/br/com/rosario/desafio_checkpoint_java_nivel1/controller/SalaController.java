@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/sala")
+@RequestMapping("/api/v1/sala")
 public class SalaController {
 
     @Autowired
