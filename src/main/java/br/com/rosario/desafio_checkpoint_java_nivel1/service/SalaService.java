@@ -8,9 +8,9 @@ import br.com.rosario.desafio_checkpoint_java_nivel1.entity.StatusSala;
 import br.com.rosario.desafio_checkpoint_java_nivel1.exception.ValidacaoException;
 import br.com.rosario.desafio_checkpoint_java_nivel1.repository.SalaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class SalaService {
@@ -18,12 +18,10 @@ public class SalaService {
     @Autowired
     private SalaRepository repository;
 
-    public List<SalaDTO> listar() {
+    public Page<SalaDTO> listar(Pageable pageable) {
         return repository
-                .findAll()
-                .stream()
-                .map(SalaDTO::new)
-                .toList();
+                .findAll(pageable)
+                .map(SalaDTO::new);
     }
 
     public SalaDTO buscarPorID(Long id) {
