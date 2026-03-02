@@ -7,6 +7,7 @@ import br.com.rosario.desafio_checkpoint_java_nivel1.exception.ValidacaoExceptio
 import br.com.rosario.desafio_checkpoint_java_nivel1.service.SalaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,12 +28,12 @@ public class SalaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<SalaDTO>> buscarPorID(@PathVariable Long id) {
+    public ResponseEntity<SalaDTO> buscarPorID(@PathVariable Long id) {
         try {
-            Optional<SalaDTO> sala = service.buscarPorID(id);
+            SalaDTO sala = service.buscarPorID(id);
             return ResponseEntity.ok(sala);
         } catch (ValidacaoException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -40,7 +41,7 @@ public class SalaController {
     public ResponseEntity<String> cadastrarSala(@RequestBody @Valid CadastroSalaDTO dto) {
         try {
             service.cadastrarSala(dto);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (ValidacaoException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -50,13 +51,13 @@ public class SalaController {
     public ResponseEntity<String> atualizarSala(@RequestBody @Valid AtualizacaoSalaDTO dto) {
         try {
             service.atualizarSala(dto);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.noContent().build();
         } catch (ValidacaoException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @PutMapping("/ativar/{id}")
+    @PutMapping("/{id}/ativar")
     public ResponseEntity<String> ativarSala(@PathVariable Long id) {
         try {
             service.ativarSala(id);
@@ -66,7 +67,7 @@ public class SalaController {
         }
     }
 
-    @PutMapping("/desativar/{id}")
+    @PutMapping("/{id}/desativar")
     public ResponseEntity<String> desativarSala(@PathVariable Long id) {
         try {
             service.desativarSala(id);
@@ -80,7 +81,7 @@ public class SalaController {
     public ResponseEntity<String> deletarSala(@PathVariable Long id) {
         try {
             service.deletarSala(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.noContent().build();
         } catch (ValidacaoException e) {
             return ResponseEntity.notFound().build();
         }
