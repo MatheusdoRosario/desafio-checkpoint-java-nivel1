@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SalaService {
@@ -30,15 +31,17 @@ public class SalaService {
                 .orElseThrow(() -> new ValidacaoException("Sala não encontrada!"));
     }
 
+    @Transactional
     public void cadastrarSala(CadastroSalaDTO dto) {
-        if (repository.existsByName(dto.nome())) {
+        if (repository.existsByNome(dto.nome())) {
             throw new ValidacaoException("Nome já cadastrado!");
         }
         repository.save(new Sala(dto));
     }
 
+    @Transactional
     public void atualizarSala(AtualizacaoSalaDTO dto) {
-        if (repository.existsByNameAndIdNot(dto.nome(), dto.id())) {
+        if (repository.existsByNomeAndIdNot(dto.nome(), dto.id())) {
             throw new ValidacaoException("Nome já cadastrado!");
         }
         Sala sala = repository.findById(dto.id())
@@ -46,6 +49,7 @@ public class SalaService {
         sala.atualizarDados(dto);
     }
 
+    @Transactional
     public void ativarSala(Long id) {
         if (repository.existsByIdAndStatusSala(id, StatusSala.DISPONIVEL)) {
             throw new ValidacaoException("Sala já está ativada!");
@@ -55,6 +59,7 @@ public class SalaService {
         sala.ativarSala();
     }
 
+    @Transactional
     public void desativarSala(Long id) {
         if (repository.existsByIdAndStatusSala(id, StatusSala.INATIVA)) {
             throw new ValidacaoException("Sala já está desativada!");
@@ -64,6 +69,7 @@ public class SalaService {
         sala.desativarSala();
     }
 
+    @Transactional
     public void deletarSala(Long id) {
         if (!repository.existsById(id)) {
             throw new ValidacaoException("Sala não encontrada!");

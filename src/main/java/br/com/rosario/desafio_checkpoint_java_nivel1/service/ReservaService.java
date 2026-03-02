@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -44,6 +45,7 @@ public class ReservaService {
                 .map(ReservaDTO::new);
     }
 
+    @Transactional
     public void cadastrarReserva(CadastroReservaDTO dto) {
         if (salaRepository.existsByIdAndStatusSala(dto.sala().getId(), StatusSala.INATIVA)) {
             throw new ValidacaoException("Sala inativa!");
@@ -55,6 +57,7 @@ public class ReservaService {
         repository.save(new Reserva(dto));
     }
 
+    @Transactional
     public void atualizarReserva(AtualizacaoReservaDTO dto) {
         if (salaRepository.existsByIdAndStatusSala(dto.sala().getId(), StatusSala.INATIVA)) {
             throw new ValidacaoException("Sala inativa!");
@@ -69,12 +72,14 @@ public class ReservaService {
         reserva.atualizarDados(dto);
     }
 
+    @Transactional
     public void cancelarReserva(UUID id) {
         Reserva reserva = repository.findById(id)
                         .orElseThrow(() -> new ValidacaoException("Reserva não encontrada!"));
         reserva.cancelarReserva(reserva);
     }
 
+    @Transactional
     public void adicionarDataFimDaReserva(UUID id, LocalDate date) {
         Reserva reserva = repository.findById(id)
                 .orElseThrow(() -> new ValidacaoException("Reserva não encontrada!"));

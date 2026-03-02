@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UsuarioService {
@@ -30,6 +31,7 @@ public class UsuarioService {
                     .orElseThrow(() -> new ValidacaoException("Usuário não encontrado!"));
     }
 
+    @Transactional
     public void cadastrarUsuario(CadastroUsuarioDTO dto) {
         if (repository.existsByTelefone(dto.telefone())) {
             throw new ValidacaoException("Telefone já cadastrado!");
@@ -37,6 +39,7 @@ public class UsuarioService {
         repository.save(new Usuario(dto));
     }
 
+    @Transactional
     public void atualizarUsuario(AtualizacaoUsuarioDTO dto) {
         if (repository.existsByTelefone(dto.telefone())) {
             throw new ValidacaoException("Telefone já cadastrado!");
@@ -46,6 +49,7 @@ public class UsuarioService {
         usuario.atualizarDados(dto);
     }
 
+    @Transactional
     public void excluirUsuario(Long id) {
         if (!repository.existsById(id)) {
             throw new ValidacaoException("Usuário não encontrado!");
