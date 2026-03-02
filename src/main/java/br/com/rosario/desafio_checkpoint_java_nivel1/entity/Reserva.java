@@ -35,7 +35,7 @@ public class Reserva {
         this.usuario = dto.usuario();
         this.statusReserva = StatusReserva.ATIVA;
         this.inicio = LocalDate.now();
-        sala.reservar();
+        sala.reservar(this);
     }
 
     public UUID getId() {
