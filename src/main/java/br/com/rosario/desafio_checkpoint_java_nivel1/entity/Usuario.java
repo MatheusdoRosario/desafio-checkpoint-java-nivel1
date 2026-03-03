@@ -43,4 +43,7 @@ public class Usuario {
         this.nome = dto.nome();
         this.telefone = dto.telefone();
     }
+
+    public void setNome(String matheus) {
+    }
 }

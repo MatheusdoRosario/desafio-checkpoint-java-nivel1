@@ -73,4 +73,8 @@ public class Sala {
         this.nome = dto.nome();
         this.capacidade = dto.capacidade();
     }
+
+    public void setNome(String salaDeReunião) {
+
+    }
 }

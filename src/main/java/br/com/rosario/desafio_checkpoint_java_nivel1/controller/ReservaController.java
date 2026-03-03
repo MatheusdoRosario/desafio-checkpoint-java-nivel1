@@ -64,7 +64,7 @@ public class ReservaController {
         }
     }
 
-    @DeleteMapping
+    @PutMapping("/cancelar/{id}")
     public ResponseEntity<String> cancelarReserva(@PathVariable UUID id) {
         try {
             service.cancelarReserva(id);
