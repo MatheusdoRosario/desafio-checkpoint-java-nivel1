@@ -1,13 +1,11 @@
 package br.com.rosario.desafio_checkpoint_java_nivel1.controller;
 
-import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizaSalaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizaUsuarioDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.CadastroUsuarioDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.exception.ValidacaoException;
 import br.com.rosario.desafio_checkpoint_java_nivel1.service.UsuarioService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -58,7 +56,7 @@ class UsuarioControllerTest {
     }
 
     @Test
-    void deveRetornar404AoBuscarUsuarioPorIdComErro() throws Exception {
+    void deveRetornar404AoBuscarUsuarioPorIdInexistente() throws Exception {
         when(service.buscarPorId(1L)).thenThrow(new ValidacaoException("Usuário não encontrado!"));
 
         var response = mvc.perform(
@@ -82,7 +80,7 @@ class UsuarioControllerTest {
     }
 
     @Test
-    void deveRetornar400AoCadastrarUsuarioComErro() throws Exception {
+    void deveRetornar400AoCadastrarUsuarioComJsonInvalido() throws Exception {
         String json = "{}";
         doThrow(new ValidacaoException("Erro ao cadastrar!"))
                 .when(service).cadastrarUsuario(any(CadastroUsuarioDTO.class));
@@ -110,7 +108,7 @@ class UsuarioControllerTest {
     }
 
     @Test
-    void deveRetornar400AoAtualizarUsuarioComErro() throws Exception {
+    void deveRetornar400AoAtualizarUsuarioComJsonInvalido() throws Exception {
         String json = "{}";
         doThrow(new ValidacaoException("Erro ao Atualizar!"))
                 .when(service).atualizarUsuario(any(AtualizaUsuarioDTO.class));
@@ -134,7 +132,7 @@ class UsuarioControllerTest {
     }
 
     @Test
-    void deveRetornar404AoExcluirUsuarioComErro() throws Exception {
+    void deveRetornar404AoExcluirUsuarioInexistente() throws Exception {
         doThrow(new ValidacaoException("Usuario não encontrado!"))
                 .when(service).excluirUsuario(1L);
 
