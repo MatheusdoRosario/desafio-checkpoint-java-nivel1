@@ -64,8 +64,8 @@ class ReservaControllerTest {
     }
 
     @Test
-    void deveRetornarCodigo400AoBuscarReservasPorIdComErro() throws Exception {
-        when(service.buscarPorId(any(UUID.class))).thenThrow(new ValidacaoException("Reserva não encontrada"));
+    void deveRetornarCodigo400AoBuscarReservaPorIdInexistentes() throws Exception {
+        when(service.buscarPorId(any(UUID.class))).thenThrow(new ValidacaoException("Reserva não encontrada!"));
 
         var response = mvc.perform(get("/api/v1/reserva/" + UUID.randomUUID()))
                 .andReturn().getResponse();
@@ -108,9 +108,9 @@ class ReservaControllerTest {
     }
 
     @Test
-    void deveRetornarCodigo400AoCadastrarReservaComErro() throws Exception {
+    void deveRetornarCodigo400AoCadastrarReservaComJsonInvalido() throws Exception {
         String json = "{}";
-        doThrow(new ValidacaoException("Erro ao atualizar"))
+        doThrow(new ValidacaoException("Erro ao cadastrar!"))
                 .when(service).cadastrarReserva(any(CadastroReservaDTO.class));
 
         var response = mvc.perform(post("/api/v1/reserva")
@@ -138,7 +138,7 @@ class ReservaControllerTest {
     }
 
     @Test
-    void deveRetornarCodigo400AoAtualizarReservaComErro() throws Exception {
+    void deveRetornarCodigo400AoAtualizarReservaComJsonInvalido() throws Exception {
         String json = "{}";
         doThrow(new ValidacaoException("Erro ao atualizar"))
                 .when(service).atualizarReserva(any(AtualizaReservaDTO.class));
@@ -160,7 +160,7 @@ class ReservaControllerTest {
     }
 
     @Test
-    void deveRetornarCodigo404AoCancelarReservaComErro() throws Exception {
+    void deveRetornarCodigo404AoCancelarReservaInexistente() throws Exception {
         doThrow(new ValidacaoException("Erro ao cancelar"))
                 .when(service).cancelarReserva(any(UUID.class));
 
@@ -185,7 +185,7 @@ class ReservaControllerTest {
     }
 
     @Test
-    void deveRetornarCodigo400AoAdicionarFimDaReservaComErro() throws Exception {
+    void deveRetornarCodigo400AoAdicionarFimDaReservaComJsonInvalido() throws Exception {
         String json = "{}";
 
         var response = mvc.perform(put("/api/v1/reserva/fim/" + UUID.randomUUID())
