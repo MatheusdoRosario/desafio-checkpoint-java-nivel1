@@ -16,7 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @SpringBootTest
@@ -55,8 +56,8 @@ class SalaControllerTest {
     }
 
     @Test
-    void deveRetornar404AoBuscarSalaPorIdComErro() throws Exception {
-        when(service.buscarPorID(1L)).thenThrow(new ValidacaoException("Sala não encontrada"));
+    void deveRetornar404AoBuscarSalaPorIdInexistente() throws Exception {
+        when(service.buscarPorID(1L)).thenThrow(new ValidacaoException("Sala não encontrada!"));
 
         var response = mvc.perform(
                 get("/api/v1/sala/1")
@@ -79,7 +80,7 @@ class SalaControllerTest {
     }
 
     @Test
-    void deveRetornar400AoCadastrarSalaComErro() throws Exception {
+    void deveRetornar400AoCadastrarSalaComJsonInvalido() throws Exception {
         String json = "{}";
         doThrow(new ValidacaoException("Erro ao cadastrar"))
                 .when(service).cadastrarSala(any(CadastroSalaDTO.class));
@@ -107,7 +108,7 @@ class SalaControllerTest {
     }
 
     @Test
-    void deveRetornar400AoAtualizarSalaComErro() throws Exception {
+    void deveRetornar400AoAtualizarSalaJsonInvalido() throws Exception {
         String json = "{}";
         doThrow(new ValidacaoException("Erro ao atualizar"))
                 .when(service).atualizarSala(any(AtualizaSalaDTO.class));
@@ -131,7 +132,7 @@ class SalaControllerTest {
     }
 
     @Test
-    void deveRetornar400AoAtivarSalaComErro() throws Exception {
+    void deveRetornar400AoAtivarSalaAtivada() throws Exception {
         doThrow(new ValidacaoException("Sala já ativa!"))
                 .when(service).ativarSala(1L);
 
@@ -152,7 +153,7 @@ class SalaControllerTest {
     }
 
     @Test
-    void deveRetornar400AoDesativarSalaComErro() throws Exception {
+    void deveRetornar400AoDesativarSalaDesativada() throws Exception {
         doThrow(new ValidacaoException("Sala já desativada!"))
                 .when(service).desativarSala(1L);
 
@@ -173,7 +174,7 @@ class SalaControllerTest {
     }
 
     @Test
-    void deveRetornar404AoExcluirSalaComErro() throws Exception {
+    void deveRetornar404AoExcluirSalaInexistente() throws Exception {
         doThrow(new ValidacaoException("Sala não encontrada!"))
                 .when(service).excluirSala(1L);
 

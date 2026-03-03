@@ -52,7 +52,7 @@ class SalaServiceTest {
     }
 
     @Test
-    void deveListarSalaPorIdSemErro() {
+    void deveRetornarSalaPorIdSemErro() {
         when(repository.findById(1L)).thenReturn(Optional.of(sala));
 
         service.buscarPorID(1L);
@@ -61,7 +61,7 @@ class SalaServiceTest {
     }
 
     @Test
-    void naoDeveListarSalaPorIdComErro() {
+    void naoDeveRetornarSalaPorIdInexistente() {
         when(repository.findById(1L)).thenReturn(Optional.empty());
 
         Assertions.assertThrows(ValidacaoException.class, () -> service.buscarPorID(1L));
@@ -78,7 +78,7 @@ class SalaServiceTest {
     }
 
     @Test
-    void naoDeveCadastrarSalaComErro() {
+    void naoDeveCadastrarSalaComNomeCadastrado() {
         when(repository.existsByNome(cadastroSalaDTO.nome())).thenReturn(true);
 
         Assertions.assertThrows(ValidacaoException.class, () -> service.cadastrarSala(cadastroSalaDTO));
@@ -95,7 +95,14 @@ class SalaServiceTest {
     }
 
     @Test
-    void naoDeveAtualizarSalaComErro() {
+    void naoDeveAtualizarSalaComNomeCadastrado() {
+        when(repository.existsByNomeAndIdNot(atualizaSalaDTO.nome(), atualizaSalaDTO.id())).thenReturn(true);
+
+        Assertions.assertThrows(ValidacaoException.class, () -> service.atualizarSala(atualizaSalaDTO));
+    }
+
+    @Test
+    void naoDeveAtualizarSalaInexistente() {
         when(repository.existsByNomeAndIdNot(atualizaSalaDTO.nome(), atualizaSalaDTO.id())).thenReturn(false);
         when(repository.findById(atualizaSalaDTO.id())).thenReturn(Optional.empty());
 
@@ -113,8 +120,16 @@ class SalaServiceTest {
     }
 
     @Test
-    void naoDeveAtivarSalaComErro() {
+    void naoDeveAtivarSalaAtivada() {
         when(repository.existsByIdAndStatusSala(1L, StatusSala.DISPONIVEL)).thenReturn(true);
+
+        Assertions.assertThrows(ValidacaoException.class, () -> service.ativarSala(1L));
+    }
+
+    @Test
+    void naoDeveAtivarSalaInexistente() {
+        when(repository.existsByIdAndStatusSala(1L, StatusSala.DISPONIVEL)).thenReturn(false);
+        when(repository.findById(1L)).thenReturn(Optional.empty());
 
         Assertions.assertThrows(ValidacaoException.class, () -> service.ativarSala(1L));
     }
@@ -130,8 +145,16 @@ class SalaServiceTest {
     }
 
     @Test
-    void naoDeveDesativarSalaComErro() {
+    void naoDeveDesativarSalaInativa() {
         when(repository.existsByIdAndStatusSala(1L, StatusSala.INATIVA)).thenReturn(true);
+
+        Assertions.assertThrows(ValidacaoException.class, () -> service.desativarSala(1L));
+    }
+
+    @Test
+    void naoDeveDesativarSalaInexistente() {
+        when(repository.existsByIdAndStatusSala(1L, StatusSala.INATIVA)).thenReturn(false);
+        when(repository.findById(1L)).thenReturn(Optional.empty());
 
         Assertions.assertThrows(ValidacaoException.class, () -> service.desativarSala(1L));
     }
@@ -146,7 +169,7 @@ class SalaServiceTest {
     }
 
     @Test
-    void naoDeveExcluirSalaComErro() {
+    void naoDeveExcluirSalaInexistente() {
         when(repository.existsById(1L)).thenReturn(false);
 
         Assertions.assertThrows(ValidacaoException.class, () -> service.excluirSala(1L));
