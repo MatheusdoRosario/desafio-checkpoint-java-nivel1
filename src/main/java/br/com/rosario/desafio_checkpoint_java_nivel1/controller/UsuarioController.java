@@ -40,7 +40,7 @@ public class UsuarioController {
     public ResponseEntity<String> cadastrarUsuario(@RequestBody @Valid CadastroUsuarioDTO dto) {
         try {
             service.cadastrarUsuario(dto);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(201).build();
         } catch (ValidacaoException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

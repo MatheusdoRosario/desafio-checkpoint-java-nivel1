@@ -79,7 +79,7 @@ public class SalaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletarSala(@PathVariable Long id) {
         try {
-            service.deletarSala(id);
+            service.excluirSala(id);
             return ResponseEntity.noContent().build();
         } catch (ValidacaoException e) {
             return ResponseEntity.notFound().build();

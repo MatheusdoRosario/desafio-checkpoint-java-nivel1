@@ -70,7 +70,7 @@ public class SalaService {
     }
 
     @Transactional
-    public void deletarSala(Long id) {
+    public void excluirSala(Long id) {
         if (!repository.existsById(id)) {
             throw new ValidacaoException("Sala não encontrada!");
         }

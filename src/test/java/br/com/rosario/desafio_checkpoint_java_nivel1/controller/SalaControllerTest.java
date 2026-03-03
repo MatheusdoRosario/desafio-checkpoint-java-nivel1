@@ -1,6 +1,5 @@
 package br.com.rosario.desafio_checkpoint_java_nivel1.controller;
 
-import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizaReservaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizaSalaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.CadastroSalaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.exception.ValidacaoException;
@@ -13,7 +12,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -83,6 +81,8 @@ class SalaControllerTest {
     @Test
     void deveRetornar400AoCadastrarSalaComErro() throws Exception {
         String json = "{}";
+        doThrow(new ValidacaoException("Erro ao cadastrar"))
+                .when(service).cadastrarSala(any(CadastroSalaDTO.class));
 
         var response = mvc.perform(
                 post("/api/v1/sala")
@@ -175,7 +175,7 @@ class SalaControllerTest {
     @Test
     void deveRetornar404AoExcluirSalaComErro() throws Exception {
         doThrow(new ValidacaoException("Sala não encontrada!"))
-                .when(service).deletarSala(1L);
+                .when(service).excluirSala(1L);
 
         var response = mvc.perform(
                 delete("/api/v1/sala/1")
