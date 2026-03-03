@@ -56,7 +56,7 @@ class ReservaServiceTest {
     private AtualizaReservaDTO atualizaReservaDTO;
 
     @Test
-    void deveListarReservaPorIdSemErro() {
+    void deveRetornarReservaPorIdSemErro() {
         when(reservaRepository.findById(any(UUID.class))).thenReturn(Optional.of(reserva));
 
         service.buscarPorId(UUID.randomUUID());
@@ -65,14 +65,14 @@ class ReservaServiceTest {
     }
 
     @Test
-    void naoDeveListarReservaPorIdComErro() {
+    void naoDeveRetornarReservaPorIdComErro() {
         when(reservaRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
 
         Assertions.assertThrows(ValidacaoException.class, () -> service.buscarPorId(UUID.randomUUID()));
     }
 
     @Test
-    void deveListarReservasPorSalaSemErro() {
+    void deveRetornarReservasPorSalaSemErro() {
         when(reservaRepository.findBySalaId(1L, pageable)).thenReturn(reservaPage);
 
         service.buscarReservasPorSala(pageable, 1L);
@@ -81,7 +81,7 @@ class ReservaServiceTest {
     }
 
     @Test
-    void deveListarReservasPorUsuarioSemErro() {
+    void deveRetornarReservasPorUsuarioSemErro() {
         when(reservaRepository.findByUsuarioId(1L, pageable)).thenReturn(reservaPage);
 
         service.buscarReservasPorUsuario(pageable, 1L);
@@ -104,10 +104,22 @@ class ReservaServiceTest {
     }
 
     @Test
-    void naoDeveCadastrarReservaComErro() {
+    void naoDeveCadastrarReservaEmSalaInativa() {
         when(cadastroReservaDTO.sala()).thenReturn(sala);
         when(sala.getId()).thenReturn(1L);
         when(salaRepository.existsByIdAndStatusSala(1L, StatusSala.INATIVA)).thenReturn(true);
+
+        Assertions.assertThrows(ValidacaoException.class, () -> service.cadastrarReserva(cadastroReservaDTO));
+    }
+
+    @Test
+    void naoDeveCadastrarReservaEmSalaComLimiteDeCapacidade() {
+        when(cadastroReservaDTO.sala()).thenReturn(sala);
+        when(sala.getId()).thenReturn(1L);
+        when(sala.getCapacidade()).thenReturn(10);
+
+        when(salaRepository.existsByIdAndStatusSala(1L, StatusSala.INATIVA)).thenReturn(false);
+        when(reservaRepository.countBySalaId(1L)).thenReturn(10L);
 
         Assertions.assertThrows(ValidacaoException.class, () -> service.cadastrarReserva(cadastroReservaDTO));
     }
@@ -128,7 +140,17 @@ class ReservaServiceTest {
     }
 
     @Test
-    void naoDeveAtualizarReservaComErro() {
+    void naoDeveAtualizarReservaEmSalaInativa() {
+        when(atualizaReservaDTO.sala()).thenReturn(sala);
+        when(sala.getId()).thenReturn(1L);
+
+        when(salaRepository.existsByIdAndStatusSala(1L, StatusSala.INATIVA)).thenReturn(true);
+
+        Assertions.assertThrows(ValidacaoException.class, () -> service.atualizarReserva(atualizaReservaDTO));
+    }
+
+    @Test
+    void naoDeveAtualizarReservaEmSalaComLimiteDeCapacidade() {
         when(atualizaReservaDTO.sala()).thenReturn(sala);
         when(sala.getId()).thenReturn(1L);
         when(sala.getCapacidade()).thenReturn(10);
@@ -149,7 +171,7 @@ class ReservaServiceTest {
     }
 
     @Test
-    void naoDeveCancelarReservaComErro() {
+    void naoDeveCancelarReservaInexistente() {
 
         when(reservaRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
 
@@ -170,7 +192,14 @@ class ReservaServiceTest {
     }
 
     @Test
-    void naoDeveAdicionarFimDaReservaComErro() {
+    void naoDeveAdicionarFimDaReservaEmReservaInexistente() {
+        when(reservaRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ValidacaoException.class, () -> service.adicionarDataFimDaReserva(UUID.randomUUID(), LocalDate.now()));
+    }
+
+    @Test
+    void naoDeveAdicionarFimDaReservaComFimPosteriorAoInicio() {
         LocalDate inicio = LocalDate.of(2026, 3, 5);
         LocalDate fim = LocalDate.of(2026, 3, 1);
         when(reservaRepository.findById(any(UUID.class))).thenReturn(Optional.of(reserva));
