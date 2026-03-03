@@ -51,7 +51,7 @@ class UsuarioServiceTest {
     }
 
     @Test
-    void deveListarUsuarioBuscandoPorIdSemErro() {
+    void deveRetornarUsuarioPorIdSemErro() {
         when(repository.findById(1L)).thenReturn(Optional.of(usuario));
 
         service.buscarPorId(1L);
@@ -60,7 +60,8 @@ class UsuarioServiceTest {
     }
 
     @Test
-    void naoDeveListarUsuarioBuscandoPorIdComErro() {
+    void naoDeveListarUsuarioPorIdInexistente() {
+        when(repository.findById(1L)).thenReturn(Optional.empty());
 
         Assertions.assertThrows(ValidacaoException.class, () -> service.buscarPorId(1L));
     }
@@ -76,7 +77,7 @@ class UsuarioServiceTest {
     }
 
     @Test
-    void naoDeveCadastrarUsuarioComErro() {
+    void naoDeveCadastrarUsuarioComTelefoneCadastrado() {
         when(repository.existsByTelefone(cadastroUsuarioDTO.telefone())).thenReturn(true);
 
         Assertions.assertThrows(ValidacaoException.class, () -> service.cadastrarUsuario(cadastroUsuarioDTO));
@@ -93,7 +94,14 @@ class UsuarioServiceTest {
     }
 
     @Test
-    void naoDeveAtualizarUsuarioComErro() {
+    void naoDeveAtualizarUsuarioComTelefoneCadastrado() {
+        when(repository.existsByTelefone(atualizaUsuarioDTO.telefone())).thenReturn(true);
+
+        Assertions.assertThrows(ValidacaoException.class, () -> service.atualizarUsuario(atualizaUsuarioDTO));
+    }
+
+    @Test
+    void naoDeveAtualizarUsuarioInexistente() {
         when(repository.existsByTelefone(atualizaUsuarioDTO.telefone())).thenReturn(false);
         when(repository.findById(atualizaUsuarioDTO.id())).thenReturn(Optional.empty());
 
@@ -110,7 +118,7 @@ class UsuarioServiceTest {
     }
 
     @Test
-    void naoDeveExcluirUsuarioComErro() {
+    void naoDeveExcluirUsuarioInexistente() {
         when(repository.existsById(1L)).thenReturn(false);
 
         Assertions.assertThrows(ValidacaoException.class, () -> service.excluirUsuario(1L));
