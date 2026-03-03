@@ -1,6 +1,6 @@
 package br.com.rosario.desafio_checkpoint_java_nivel1.controller;
 
-import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizacaoSalaDTO;
+import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizaSalaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.CadastroSalaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.SalaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.exception.ValidacaoException;
@@ -47,7 +47,7 @@ public class SalaController {
     }
 
     @PutMapping
-    public ResponseEntity<String> atualizarSala(@RequestBody @Valid AtualizacaoSalaDTO dto) {
+    public ResponseEntity<String> atualizarSala(@RequestBody @Valid AtualizaSalaDTO dto) {
         try {
             service.atualizarSala(dto);
             return ResponseEntity.noContent().build();

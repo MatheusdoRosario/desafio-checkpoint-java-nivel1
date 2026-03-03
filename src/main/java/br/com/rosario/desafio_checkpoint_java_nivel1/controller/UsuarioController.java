@@ -1,6 +1,6 @@
 package br.com.rosario.desafio_checkpoint_java_nivel1.controller;
 
-import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizacaoUsuarioDTO;
+import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizaUsuarioDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.CadastroUsuarioDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.UsuarioDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.exception.ValidacaoException;
@@ -47,7 +47,7 @@ public class UsuarioController {
     }
 
     @PutMapping
-    public ResponseEntity<String> atualizarUsuario(@RequestBody @Valid AtualizacaoUsuarioDTO dto) {
+    public ResponseEntity<String> atualizarUsuario(@RequestBody @Valid AtualizaUsuarioDTO dto) {
         try {
             service.atualizarUsuario(dto);
             return ResponseEntity.noContent().build();

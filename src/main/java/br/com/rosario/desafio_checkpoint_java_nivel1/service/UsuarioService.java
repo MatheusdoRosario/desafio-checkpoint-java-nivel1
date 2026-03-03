@@ -1,6 +1,6 @@
 package br.com.rosario.desafio_checkpoint_java_nivel1.service;
 
-import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizacaoUsuarioDTO;
+import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizaUsuarioDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.CadastroUsuarioDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.UsuarioDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.entity.Usuario;
@@ -40,7 +40,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void atualizarUsuario(AtualizacaoUsuarioDTO dto) {
+    public void atualizarUsuario(AtualizaUsuarioDTO dto) {
         if (repository.existsByTelefone(dto.telefone())) {
             throw new ValidacaoException("Telefone já cadastrado!");
         }

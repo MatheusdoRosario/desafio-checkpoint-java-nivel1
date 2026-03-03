@@ -51,7 +51,7 @@ class ReservaControllerTest {
     private JacksonTester<CadastroReservaDTO> cadastroJson;
 
     @Autowired
-    private JacksonTester<AtualizacaoReservaDTO> atualizacaoJson;
+    private JacksonTester<AtualizaReservaDTO> atualizacaoJson;
 
     @Test
     void deveRetornarCodigo200AoBuscarReservasPorIdSemErro() throws Exception {
@@ -123,14 +123,14 @@ class ReservaControllerTest {
 
     @Test
     void deveRetornarCodigo200AoAtualizarReservaSemErro() throws Exception {
-        AtualizacaoReservaDTO atualizacaoReservaDTO = new AtualizacaoReservaDTO(UUID.randomUUID(),
+        AtualizaReservaDTO atualizaReservaDTO = new AtualizaReservaDTO(UUID.randomUUID(),
                 LocalDate.now(),
                 new Sala(new CadastroSalaDTO("Sala 1", 10)),
                 new Usuario(new CadastroUsuarioDTO("Matheus", "22555554444")),
                 StatusReserva.ATIVA);
 
         var response = mvc.perform(put("/api/v1/reserva")
-                        .content(atualizacaoJson.write(atualizacaoReservaDTO).getJson())
+                        .content(atualizacaoJson.write(atualizaReservaDTO).getJson())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
 
@@ -141,7 +141,7 @@ class ReservaControllerTest {
     void deveRetornarCodigo400AoAtualizarReservaComErro() throws Exception {
         String json = "{}";
         doThrow(new ValidacaoException("Erro ao atualizar"))
-                .when(service).atualizarReserva(any(AtualizacaoReservaDTO.class));
+                .when(service).atualizarReserva(any(AtualizaReservaDTO.class));
 
         var response = mvc.perform(put("/api/v1/reserva")
                         .content(json)
