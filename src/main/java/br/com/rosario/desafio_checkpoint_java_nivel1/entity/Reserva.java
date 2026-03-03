@@ -1,6 +1,6 @@
 package br.com.rosario.desafio_checkpoint_java_nivel1.entity;
 
-import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizacaoReservaDTO;
+import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizaReservaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.CadastroReservaDTO;
 import jakarta.persistence.*;
 
@@ -71,7 +71,7 @@ public class Reserva {
         this.fim = date;
     }
 
-    public void atualizarDados(AtualizacaoReservaDTO dto) {
+    public void atualizarDados(AtualizaReservaDTO dto) {
         this.id = dto.id();
         this.sala = dto.sala();
         this.usuario = dto.usuario();

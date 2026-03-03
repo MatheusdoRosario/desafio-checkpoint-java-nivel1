@@ -7,9 +7,9 @@ import br.com.rosario.desafio_checkpoint_java_nivel1.entity.Usuario;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record AtualizacaoReservaDTO(UUID id,
-                                    LocalDate inicio,
-                                    Sala sala,
-                                    Usuario usuario,
-                                    StatusReserva statusReserva) {
+public record AtualizaReservaDTO(UUID id,
+                                 LocalDate inicio,
+                                 Sala sala,
+                                 Usuario usuario,
+                                 StatusReserva statusReserva) {
 }

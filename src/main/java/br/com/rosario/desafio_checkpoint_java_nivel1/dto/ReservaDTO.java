@@ -6,11 +6,13 @@ import br.com.rosario.desafio_checkpoint_java_nivel1.entity.Usuario;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
-public record ReservaDTO(LocalDate inicio,
+public record ReservaDTO(UUID uuid,
+                         LocalDate inicio,
                          @NotNull Sala sala,
                          @NotNull Usuario usuario) {
     public ReservaDTO(Reserva reserva) {
-        this(reserva.getInicio(), reserva.getSala(), reserva.getUsuario());
+        this(reserva.getId() ,reserva.getInicio(), reserva.getSala(), reserva.getUsuario());
     }
 }

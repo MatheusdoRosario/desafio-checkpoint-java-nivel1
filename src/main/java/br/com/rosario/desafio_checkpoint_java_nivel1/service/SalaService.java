@@ -1,6 +1,6 @@
 package br.com.rosario.desafio_checkpoint_java_nivel1.service;
 
-import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizacaoSalaDTO;
+import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizaSalaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.CadastroSalaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.SalaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.entity.Sala;
@@ -40,7 +40,7 @@ public class SalaService {
     }
 
     @Transactional
-    public void atualizarSala(AtualizacaoSalaDTO dto) {
+    public void atualizarSala(AtualizaSalaDTO dto) {
         if (repository.existsByNomeAndIdNot(dto.nome(), dto.id())) {
             throw new ValidacaoException("Nome já cadastrado!");
         }
@@ -70,7 +70,7 @@ public class SalaService {
     }
 
     @Transactional
-    public void deletarSala(Long id) {
+    public void excluirSala(Long id) {
         if (!repository.existsById(id)) {
             throw new ValidacaoException("Sala não encontrada!");
         }

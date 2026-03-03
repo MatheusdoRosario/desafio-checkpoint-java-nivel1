@@ -1,6 +1,6 @@
 package br.com.rosario.desafio_checkpoint_java_nivel1.service;
 
-import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizacaoReservaDTO;
+import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizaReservaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.CadastroReservaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.ReservaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.entity.Reserva;
@@ -58,7 +58,7 @@ public class ReservaService {
     }
 
     @Transactional
-    public void atualizarReserva(AtualizacaoReservaDTO dto) {
+    public void atualizarReserva(AtualizaReservaDTO dto) {
         if (salaRepository.existsByIdAndStatusSala(dto.sala().getId(), StatusSala.INATIVA)) {
             throw new ValidacaoException("Sala inativa!");
         }

@@ -1,6 +1,6 @@
 package br.com.rosario.desafio_checkpoint_java_nivel1.controller;
 
-import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizacaoReservaDTO;
+import br.com.rosario.desafio_checkpoint_java_nivel1.dto.AtualizaReservaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.CadastroReservaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.dto.ReservaDTO;
 import br.com.rosario.desafio_checkpoint_java_nivel1.exception.ValidacaoException;
@@ -55,7 +55,7 @@ public class ReservaController {
     }
 
     @PutMapping
-    public ResponseEntity<String> atualizarReserva(@RequestBody @Valid AtualizacaoReservaDTO dto) {
+    public ResponseEntity<String> atualizarReserva(@RequestBody @Valid AtualizaReservaDTO dto) {
         try {
             service.atualizarReserva(dto);
             return ResponseEntity.ok().build();
@@ -64,7 +64,7 @@ public class ReservaController {
         }
     }
 
-    @DeleteMapping
+    @PutMapping("/cancelar/{id}")
     public ResponseEntity<String> cancelarReserva(@PathVariable UUID id) {
         try {
             service.cancelarReserva(id);
