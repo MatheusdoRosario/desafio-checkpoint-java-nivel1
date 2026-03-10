@@ -72,9 +72,14 @@ public class Reserva {
     }
 
     public void atualizarDados(AtualizaReservaDTO dto) {
-        this.id = dto.id();
-        this.sala = dto.sala();
-        this.usuario = dto.usuario();
-        this.statusReserva = dto.statusReserva();
+        if (dto.sala() != null) {
+            this.sala = dto.sala();
+        }
+        if (dto.usuario() != null) {
+            this.usuario = dto.usuario();
+        }
+        if (dto.statusReserva() != null) {
+            this.statusReserva = dto.statusReserva();
+        }
     }
 }

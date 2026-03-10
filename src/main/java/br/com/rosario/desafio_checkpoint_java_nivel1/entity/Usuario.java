@@ -39,9 +39,12 @@ public class Usuario {
     }
 
     public void atualizarDados(AtualizaUsuarioDTO dto) {
-        this.id = dto.id();
-        this.nome = dto.nome();
-        this.telefone = dto.telefone();
+        if (dto.nome() != null) {
+            this.nome = dto.nome();
+        }
+        if (dto.telefone() != null) {
+            this.telefone = dto.telefone();
+        }
     }
 
     public void setNome(String matheus) {
