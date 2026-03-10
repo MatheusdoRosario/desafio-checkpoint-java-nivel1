@@ -69,9 +69,12 @@ public class Sala {
     }
 
     public void atualizarDados(AtualizaSalaDTO dto) {
-        this.id = dto.id();
-        this.nome = dto.nome();
-        this.capacidade = dto.capacidade();
+        if (dto.nome() != null) {
+            this.nome = dto.nome();
+        }
+        if (dto.capacidade() != null) {
+            this.capacidade = dto.capacidade();
+        }
     }
 
     public void setNome(String salaDeReunião) {
